@@ -1,328 +1,61 @@
 # Static-Routing-Using-3-Routers
-Lab Report: Static Routing Using 3 Routers
+Static Routing Using 3 Routers
 
-1. Objective
+Overview
 
-To configure static routing between three routers using a subnetted network 10.0.0.0/8 divided into /11 subnets, and to verify end‑to‑end connectivity between all LANs.
+This repository contains the configuration details and documentation for a network topology that implements static routing across three routers. The project demonstrates subnetting a 10.0.0.0/8 network into /11 subnets and establishing successful end-to-end connectivity between multiple distinct Local Area Networks (LANs).
 
-2. Topology Description
+Topology
 
-The network consists of:
+The network is structured in a linear topology (R0 — R1 — R2) and consists of:
 
 3 Routers: Router0, Router1, Router2
 
-3 Switches: Connecting the LAN devices to the routers
+3 Switches: Acting as the distribution point for each LAN
+
+End Devices:
 
 LAN 1: 3 PCs
 
-LAN 2: 2 Laptops + 1 Server
+LAN 2: 2 Laptops, 1 Server
 
 LAN 3: 3 PCs
 
-Topology Layout: Routers are connected in a linear topology (R0 — R1 — R2).
+Subnetting Plan
 
-3. Subnetting Plan (10.0.0.0/8 → /11)
+The base network 10.0.0.0/8 is subnetted using a 255.224.0.0 (/11) subnet mask. The network assignments are as follows:
 
-Subnet Mask Used: 255.224.0.0 (/11)
+10.0.0.0/11 → LAN 1
 
-Subnet Network
+10.32.0.0/11 → R0–R1 Link
 
-Assignment
+10.64.0.0/11 → LAN 2
 
-10.0.0.0/11
+10.96.0.0/11 → R1–R2 Link
 
-LAN 1
+10.128.0.0/11 → LAN 3
 
-10.32.0.0/11
+Configuration Highlights
 
-R0–R1 Link
+The routers are configured using standard Cisco IOS commands to set up interfaces and define static paths to non-directly connected networks.
 
-10.64.0.0/11
+Example static routing command structure used in this project:
 
-LAN 2
+ip route <destination_network> <subnet_mask> <next_hop_ip>
 
-10.96.0.0/11
 
-R1–R2 Link
+(For full interface IP assignments and specific routing commands for each router, refer to the detailed Lab Report.)
 
-10.128.0.0/11
+Verification & Testing
 
-LAN 3
+To verify the functionality of this setup in your own environment:
 
-4. IP Addressing Table
+Routing Tables: Run show ip route on each router to ensure the static routes are present.
 
-Device
+Interface Status: Run show ip interface brief to confirm all relevant interfaces are "up" and assigned the correct IP addresses.
 
-Interface / Hostname
+End-to-End Connectivity: Open the command prompt on the end devices and execute ping tests between different LANs (e.g., Ping from LAN 1 to LAN 3).
 
-IP Address
+Results
 
-Subnet Mask
-
-Default Gateway
-
-Router0
-
-Fa0/0 (LAN 1)
-
-10.0.0.1
-
-255.224.0.0
-
-N/A
-
-
-
-Fa0/1 (R0-R1)
-
-10.32.0.1
-
-255.224.0.0
-
-N/A
-
-Router1
-
-Fa0/0 (R0-R1)
-
-10.32.0.2
-
-255.224.0.0
-
-N/A
-
-
-
-Fa0/1 (LAN 2)
-
-10.64.0.1
-
-255.224.0.0
-
-N/A
-
-
-
-Fa1/0 (R1-R2)
-
-10.96.0.1
-
-255.224.0.0
-
-N/A
-
-Router2
-
-Fa0/0 (LAN 3)
-
-10.128.0.1
-
-255.224.0.0
-
-N/A
-
-
-
-Fa0/1 (R1-R2)
-
-10.96.0.2
-
-255.224.0.0
-
-N/A
-
-LAN 1
-
-PC0
-
-10.0.0.2
-
-255.224.0.0
-
-10.0.0.1
-
-
-
-PC1
-
-10.0.0.3
-
-255.224.0.0
-
-10.0.0.1
-
-
-
-PC2
-
-10.0.0.4
-
-255.224.0.0
-
-10.0.0.1
-
-LAN 2
-
-Laptop0
-
-10.64.0.2
-
-255.224.0.0
-
-10.64.0.1
-
-
-
-Server
-
-10.64.0.3
-
-255.224.0.0
-
-10.64.0.1
-
-
-
-Laptop1
-
-10.64.0.4
-
-255.224.0.0
-
-10.64.0.1
-
-LAN 3
-
-PC3
-
-10.128.0.3
-
-255.224.0.0
-
-10.128.0.1
-
-
-
-PC4
-
-10.128.0.2
-
-255.224.0.0
-
-10.128.0.1
-
-
-
-PC5
-
-10.128.0.4
-
-255.224.0.0
-
-10.128.0.1
-
-5. Router Configuration Commands
-
-Router0
-
-enable
-configure terminal
-
-! Interface Configuration
-interface fa0/0
- ip address 10.0.0.1 255.224.0.0
- no shutdown
- exit
-
-interface fa0/1
- ip address 10.32.0.1 255.224.0.0
- no shutdown
- exit
-
-! Static Routing
-ip route 10.64.0.0 255.224.0.0 10.32.0.2
-ip route 10.96.0.0 255.224.0.0 10.32.0.2
-ip route 10.128.0.0 255.224.0.0 10.32.0.2
-
-
-Router1
-
-enable
-configure terminal
-
-! Interface Configuration
-interface fa0/0
- ip address 10.32.0.2 255.224.0.0
- no shutdown
- exit
-
-interface fa1/0
- ip address 10.96.0.1 255.224.0.0
- no shutdown
- exit
-
-interface fa0/1
- ip address 10.64.0.1 255.224.0.0
- no shutdown
- exit
-
-! Static Routing
-ip route 10.0.0.0 255.224.0.0 10.32.0.1
-ip route 10.128.0.0 255.224.0.0 10.96.0.2
-
-
-Router2
-
-enable
-configure terminal
-
-! Interface Configuration
-interface fa0/1
- ip address 10.96.0.2 255.224.0.0
- no shutdown
- exit
-
-interface fa0/0
- ip address 10.128.0.1 255.224.0.0
- no shutdown
- exit
-
-! Static Routing
-ip route 10.0.0.0 255.224.0.0 10.96.0.1
-ip route 10.32.0.0 255.224.0.0 10.96.0.1
-ip route 10.64.0.0 255.224.0.0 10.96.0.1
-
-
-6. Verification
-
-6.1 Routing Table & Interface Verification
-
-The outputs below confirm that the interfaces are up and that the static routes have been successfully added to the routing tables of each router.
-
-Router0:
-
-
-Router1:
-
-
-Router2:
-
-
-6.2 End-to-End Connectivity (Ping Tests)
-
-To verify the configuration, ping tests were conducted across the network subnets.
-
-Ping from LAN 1 (PC0): Successfully reaching devices in LAN 3.
-
-
-Ping from LAN 2 (Laptop1): Successfully reaching devices in LAN 1 and LAN 3.
-
-
-Ping from LAN 3 (PC5): Successfully reaching devices in LAN 1 and LAN 2.
-
-
-Result: All pings were successful, indicating that the static routing is functioning properly.
-
-7. Conclusion
-
-Static routing was successfully implemented between three routers using /11 subnetting of the 10.0.0.0/8 network. Full, end-to-end connectivity between all LANs across the topology was successfully achieved.
+When configured correctly according to this documentation, full connectivity is achieved, and all ICMP ping requests between LAN 1, LAN 2, and LAN 3 are completely successful.

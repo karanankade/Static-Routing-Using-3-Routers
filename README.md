@@ -64,11 +64,9 @@ ip route 10.96.0.0 255.224.0.0 10.32.0.2
 ip route 10.128.0.0 255.224.0.0 10.32.0.2
 
 ! DHCP Configuration for LAN 1
-ip dhcp excluded-address 10.0.0.1 10.0.0.10
-ip dhcp pool LAN1_POOL
+ip dhcp pool P1
  network 10.0.0.0 255.224.0.0
  default-router 10.0.0.1
- dns-server 8.8.8.8
  exit
 ```
 
@@ -98,11 +96,9 @@ ip route 10.0.0.0 255.224.0.0 10.32.0.1
 ip route 10.128.0.0 255.224.0.0 10.96.0.2
 
 ! DHCP Configuration for LAN 2
-ip dhcp excluded-address 10.64.0.1 10.64.0.10
-ip dhcp pool LAN2_POOL
+ip dhcp pool P2
  network 10.64.0.0 255.224.0.0
  default-router 10.64.0.1
- dns-server 8.8.8.8
  exit
 ```
 
@@ -128,11 +124,9 @@ ip route 10.32.0.0 255.224.0.0 10.96.0.1
 ip route 10.64.0.0 255.224.0.0 10.96.0.1
 
 ! DHCP Configuration for LAN 3
-ip dhcp excluded-address 10.128.0.1 10.128.0.10
-ip dhcp pool LAN3_POOL
+ip dhcp pool P3
  network 10.128.0.0 255.224.0.0
  default-router 10.128.0.1
- dns-server 8.8.8.8
  exit
 ```
 
